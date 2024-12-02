@@ -1,0 +1,14 @@
+# 忽略数据文件
+data/raw/*
+data/processed/*
+data/synthetic/*
+
+# 忽略模型文件
+outputs/models/*
+
+# 忽略日志和临时文件
+outputs/logs/*
+*.log
+
+# 忽略 Jupyter Notebook 自动生成的检查点文件
+.ipynb_checkpoints/
