@@ -12,3 +12,6 @@ outputs/logs/*
 
 # 忽略 Jupyter Notebook 自动生成的检查点文件
 .ipynb_checkpoints/
+
+# 忽略.vscode文件夹
+.vscode/
