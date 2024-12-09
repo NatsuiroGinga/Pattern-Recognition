@@ -81,3 +81,4 @@ class Visualizer:
         # 使用 ContentClassifier 进行分类
         classifier = ContentClassifier(self.y_true, self.y_pred, self.num_contents)
         classifier.classify_contents()
+        classifier.evaluate_classification()

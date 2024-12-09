@@ -14,60 +14,50 @@ class ContentClassifier:
         self.num_contents = num_contents
 
     def classify_contents(self):
-        # 对最后一个时间步的数据进行分类
         y_true_last = self.y_true[-1]
         y_pred_last = self.y_pred[-1]
+        q33, q66 = np.percentile(y_true_last, [33, 66])
+        print(f"33% 分位数: {q33:.2f}, 66% 分位数: {q66:.2f}")
 
-        # 定义实际请求量的阈值
-        q33_true, q66_true = np.percentile(y_true_last, [33, 66])
+        def classify(request_counts, q33, q66):
+            categories = []
+            for count in request_counts:
+                if count <= q33:
+                    categories.append("Unpopular")
+                elif count <= q66:
+                    categories.append("Normal")
+                else:
+                    categories.append("Popular")
+            return categories
 
-        # 对实际请求量进行分类
-        true_categories = []
-        for count in y_true_last:
-            if count <= q33_true:
-                true_categories.append("Unpopular")
-            elif count <= q66_true:
-                true_categories.append("Normal")
-            else:
-                true_categories.append("Popular")
+        true_categories = classify(y_true_last, q33, q66)
+        pred_categories = classify(y_pred_last, q33, q66)
+
         self.true_categories = true_categories
-
-        # 对预测请求量进行分类，使用相同的阈值
-        pred_categories = []
-        for count in y_pred_last:
-            if count <= q33_true:
-                pred_categories.append("Unpopular")
-            elif count <= q66_true:
-                pred_categories.append("Normal")
-            else:
-                pred_categories.append("Popular")
         self.pred_categories = pred_categories
 
-        # 统计实际分类结果
         true_counts = Counter(true_categories)
-        print(f"实际请求量分类统计:")
-        print(true_counts)
-
-        # 统计预测分类结果
         pred_counts = Counter(pred_categories)
-        print(f"预测请求量分类统计:")
+        print("实际请求量分类统计:")
+        print(true_counts)
+        print("预测请求量分类统计:")
         print(pred_counts)
 
-        # 绘制实际请求量分类的饼图
         labels = ["Unpopular", "Normal", "Popular"]
-        sizes_true = [true_counts.get(label, 0) for label in labels]
-        plt.figure(figsize=(12, 6))
+        sizes_true = [true_counts[label] for label in labels]
+        sizes_pred = [pred_counts[label] for label in labels]
 
-        plt.subplot(1, 2, 1)
+        # 实际请求量分类的饼图
+        plt.figure(figsize=(8, 6))
         plt.pie(sizes_true, labels=labels, autopct="%1.1f%%", startangle=140)
-        plt.title(f"实际请求量分类")
+        plt.title("实际请求量分类")
+        plt.axis("equal")
+        plt.show()
 
-        # 绘制预测请求量分类的饼图
-        sizes_pred = [pred_counts.get(label, 0) for label in labels]
-        plt.subplot(1, 2, 2)
+        # 预测请求量分类的饼图
+        plt.figure(figsize=(8, 6))
         plt.pie(sizes_pred, labels=labels, autopct="%1.1f%%", startangle=140)
-        plt.title(f"预测请求量分类")
-
+        plt.title("预测请求量分类")
         plt.axis("equal")
         plt.show()
 

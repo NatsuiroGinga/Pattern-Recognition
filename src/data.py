@@ -4,7 +4,7 @@ from sklearn.preprocessing import MinMaxScaler
 import torch
 from torch.utils.data import TensorDataset, DataLoader
 
-from config import Config
+from src.config import Config
 
 np.random.seed(42)
 
