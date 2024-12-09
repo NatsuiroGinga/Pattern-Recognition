@@ -50,7 +50,6 @@ class LSTMModel(nn.Module):
 
         # LSTM 前向传播
         out, (hn, cn) = self.lstm1(x, (h0, c0))
-        out = self.relu(out)
         out, _ = self.lstm2(out, (hn, cn))
         # 取最后一个时间步的输出
         out = out[:, -1, :]

@@ -66,6 +66,18 @@ class DataGenerator:
         torch.save(self.y, "data/y.pt")
 
     def get_data_loaders(self, batch_size, train_ratio, val_ratio, test_ratio):
+        """
+        get_data_loaders 方法用于生成训练集、验证集和测试集的数据加载器。
+
+        Args:
+            batch_size (int): 批量大小
+            train_ratio (float): 训练集比例
+            val_ratio (float): 验证集比例
+            test_ratio (float): 测试集比例
+
+        Returns:
+            (train_loader, val_loader, test_loader): 训练集、验证集和测试集的数据加载器
+        """
         assert (
             abs(train_ratio + val_ratio + test_ratio - 1.0) < 1e-6
         ), "训练集、验证集和测试集的比例之和必须为1"

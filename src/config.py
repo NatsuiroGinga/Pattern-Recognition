@@ -23,7 +23,7 @@ class Config:
         self.num_layers = 1
         self.dropout = 0.0
         self.learning_rate = 0.001
-        self.num_epochs = 50  # 增加 epoch 数，以便早停机制发挥作用
+        self.num_epochs = 50
         self.patience = 5  # 早停的容忍度
         self.min_delta = 0.0001  # 最小改进量
         self.log_level = "INFO"
